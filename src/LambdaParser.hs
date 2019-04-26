@@ -23,7 +23,8 @@ applicationParser = do string "("
                        return $ LambdaApplication term1 term2
 
 -- TODO Reportar bug en Parsec: string "(λ" /= do char '('; char 'λ'
-functionParser = do string "(λ"
+functionParser = do char '('
+                    char 'λ'
                     params <- paramsParser
                     char '.'
                     term <- termParser
