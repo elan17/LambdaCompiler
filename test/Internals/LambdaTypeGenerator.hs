@@ -1,13 +1,15 @@
 {-# LANGUAGE FlexibleInstances #-}
-module LambdaTypeGenerator where
+module Internals.LambdaTypeGenerator where
 
 import Test.QuickCheck.Arbitrary
 import           Test.QuickCheck.Gen
-import LambdaTypes
+import CompiladorLambda
 import           Control.Monad
 import           Data.List.Utils
 
 
+-- | La instancia @Arbtrary@ para el dato @LambdaTerm String@ permite generar
+-- casos aleatorios para comprobar las propiedades de los tests
 instance Arbitrary (LambdaTerm String) where
     arbitrary = sized arbitrary'
         where arbitrary' 0 = varGen

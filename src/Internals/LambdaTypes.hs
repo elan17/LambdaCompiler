@@ -1,6 +1,6 @@
 {-# LANGUAGE FlexibleInstances #-}
 
-module LambdaTypes
+module Internals.LambdaTypes
 ( LambdaTerm(..)
 , Parametros(Parametros)
 ) where
@@ -8,6 +8,7 @@ module LambdaTypes
 newtype Parametros a = Parametros [a]
     deriving (Eq)
 
+-- | @LambdaTerm a@ representa una expresión lambda ya parseada
 data LambdaTerm a = LambdaVariable a
                   | LambdaFunction { variables :: Parametros a
                                    , cuerpo :: LambdaTerm a}

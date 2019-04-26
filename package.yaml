@@ -1,5 +1,6 @@
 library:
   source-dirs: src
+  exposed-modules: CompiladorLambda
 tests:
   CompiladorLambda-test:
     source-dirs: test
@@ -9,13 +10,13 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - MissingH
     - random
     - hspec
     - QuickCheck
     - CompiladorLambda
-    - MissingH
-copyright: 2019 Author name here
-maintainer: example@example.com
+copyright: 2019 Juan Toca Mateo
+maintainer: elan17.programacion@gmail.com
 dependencies:
 - hspec
 - base >= 4.7 && < 5
@@ -26,8 +27,8 @@ version: 0.1.0.0
 extra-source-files:
 - README.md
 - ChangeLog.md
-author: Author name here
-github: githubuser/CompiladorLambda
+author: Juan Toca Mateo
+github: elan17/LambdaCompiler
 license: BSD3
 executables:
   CompiladorLambda-exe:
@@ -39,4 +40,4 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - CompiladorLambda
-description: Please see the README on GitHub at <https://github.com/githubuser/CompiladorLambda#readme>
+description: Please see the README on GitHub at https://github.com/elan17/LambdaCompiler
