@@ -1,7 +1,11 @@
 module CompiladorLambda
 ( LambdaTerm (..)
 , Parametros (..)
-)where
+, alphaTransform
+, toString
+, parseTerm
+) where
 
+import Internals.Transformations.AlphaTransformation
 import Internals.LambdaParser
 import Internals.LambdaTypes

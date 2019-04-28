@@ -5,15 +5,15 @@ import Test.QuickCheck.Arbitrary
 import           Test.QuickCheck.Gen
 import CompiladorLambda
 import           Control.Monad
-import           Data.List.Utils
 
 
--- | La instancia @Arbtrary@ para el dato @LambdaTerm String@ permite generar
+-- | La instancia @Arbitrary@ para el dato @LambdaTerm String@ permite generar
 -- casos aleatorios para comprobar las propiedades de los tests
-instance Arbitrary (LambdaTerm String) where
+instance Arbitrary LambdaTerm where
     arbitrary = sized arbitrary'
         where arbitrary' 0 = varGen
               arbitrary' depth = oneof [ varGen
+                                       , stubGen
                                        , functionGen depth
                                        , applicationGen depth]
               applicationGen depth=
@@ -24,9 +24,10 @@ instance Arbitrary (LambdaTerm String) where
                   do x <- fmap LambdaFunction paramsGen
                      fmap x (arbitrary' (depth-1))
 
-              paramsGen = fmap Parametros (listOf1 varStringGen)
+              paramsGen = fmap Parametros (listOf varStringGen)
 
               varGen = fmap LambdaVariable varStringGen
 
-              varStringGen :: Gen String
-              varStringGen = listOf1 $ oneof (map return "abcdefghijklmnopqrstuvwxyz")
+              varStringGen = fmap (:[]) (oneof (map return "abcdefghijklmnñopqrstuvwxyz")) -- Variables de un carácter para forzar colisiones
+
+              stubGen = fmap LambdaStub (listOf1 (oneof (map return "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ+-*/")))

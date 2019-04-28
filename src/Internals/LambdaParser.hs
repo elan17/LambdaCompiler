@@ -1,10 +1,17 @@
 {-# LANGUAGE FlexibleInstances #-}
-module Internals.LambdaParser where
+module Internals.LambdaParser
+( parseTerm
+) where
 
 import Internals.LambdaTypes
 import Text.Parsec
 
-literalParser = many1 $ noneOf " .()λ"
+literalParser = do var <- many1 (oneOf "abcdefghijklmnñopqrstuvwxyz")
+                   notFollowedBy stubParser
+                   return var
+
+-- | Parser para un stub
+stubParser = LambdaStub  <$> many1 (noneOf " .()λ")
 
 -- | Parser para una variable
 variableParser = LambdaVariable <$> literalParser
@@ -16,7 +23,8 @@ paramsParser = do params <- sepBy literalParser (char ' ')
 -- Parser de cualquier expresión lambda
 termParser =  try functionParser
           <|> try applicationParser
-          <|> variableParser
+          <|> try variableParser
+          <|> stubParser
 
 -- | Parser de una aplicación lambda
 applicationParser = do string "("
@@ -37,10 +45,10 @@ functionParser = do char '('
                     return $ LambdaFunction params term
 
 -- | Parsea una expresión lambda dada
-parseTerm :: String -> Either ParseError (LambdaTerm String)
+parseTerm :: String -> Either ParseError LambdaTerm
 parseTerm = parse termParser "(unknown)"
 
-instance Read (LambdaTerm String) where
+instance Read LambdaTerm where
     readsPrec _ str = case parseTerm str of
                            Right x -> [(x, "")]
                            Left x -> []

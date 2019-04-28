@@ -3,49 +3,31 @@
 module Internals.LambdaTypes
 ( LambdaTerm(..)
 , Parametros(Parametros)
+, toString
 ) where
 
-newtype Parametros a = Parametros [a]
-    deriving (Eq)
+newtype Parametros = Parametros [String]
+    deriving (Eq, Show)
 
 -- | @LambdaTerm a@ representa una expresión lambda ya parseada
-data LambdaTerm a = LambdaVariable a
-                  | LambdaFunction { variables :: Parametros a
-                                   , cuerpo :: LambdaTerm a}
-                  | LambdaApplication (LambdaTerm a) (LambdaTerm a)
-                  deriving (Eq)
+data LambdaTerm = LambdaVariable String
+                | LambdaFunction { variables :: Parametros
+                                 , cuerpo :: LambdaTerm}
+                | LambdaApplication LambdaTerm LambdaTerm
+                | LambdaStub String
+                deriving (Eq, Show)
 
 {-
     Métodos para convertir la expresión lambda a un string
 -}
 
-instance Show (Parametros String) where
-    show (Parametros []) = ""
-    show (Parametros [x]) = x
-    show (Parametros (x:xs)) = x ++ " " ++ show (Parametros xs)
+toStringParams :: Parametros -> String
+toStringParams (Parametros []) = ""
+toStringParams (Parametros [x]) = x
+toStringParams (Parametros (x:xs)) = x ++ " " ++ toStringParams (Parametros xs)
 
-instance Show (Parametros Char) where
-    show (Parametros []) = ""
-    show (Parametros [x]) = [x]
-    show (Parametros (x:xs)) = x : ' ' : show (Parametros xs)
-
-instance {-# OVERLAPS #-} (Show a) => Show (Parametros a) where
-    show (Parametros []) = ""
-    show (Parametros [x]) = show x
-    show (Parametros (x:xs)) = show x ++ " " ++ show (Parametros xs)
-
-
-instance Show (LambdaTerm Char) where
-    show (LambdaVariable x) = [x]
-    show (LambdaApplication x y) = "("++ show x ++ " " ++ show y++")"
-    show (LambdaFunction vars c) = "(λ"++show vars++"."++show c++")"
-
-instance Show (LambdaTerm String) where
-    show (LambdaVariable x) = x
-    show (LambdaApplication x y) = "("++ show x ++ " " ++ show y++")"
-    show (LambdaFunction vars c) = "(λ"++show vars++"."++show c++")"
-
-instance {-# OVERLAPS #-} (Show a) => Show (LambdaTerm a) where
-    show (LambdaVariable x) = show x
-    show (LambdaApplication x y) = "("++ show x ++ " " ++ show y++")"
-    show (LambdaFunction vars c) = "(λ"++show vars++"."++show c++")"
+toString :: LambdaTerm -> String
+toString (LambdaVariable x) = x
+toString (LambdaStub x) = x
+toString (LambdaApplication x y) = "(" ++ toString x ++ " " ++ toString y++")"
+toString (LambdaFunction vars c) = "(λ"++ toStringParams vars ++ "."++ toString c++")"
