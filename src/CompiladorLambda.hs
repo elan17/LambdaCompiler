@@ -3,6 +3,9 @@ module CompiladorLambda
 , Parametros (..)
 , alphaTransform
 , betaTransform
+, (<\)
+, (\>)
+, applyFunction
 , toString
 , parseTerm
 ) where

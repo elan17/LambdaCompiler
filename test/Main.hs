@@ -19,5 +19,5 @@ main = hspec $ do
             it "Las variables unbound se mantienen con los mismos nombres" $ do
                 property $ prop_unboundIguales
         describe "Internals.Trasformations.BetaTransformation.betaTransform" $ do
-            it "La transformación beta debe ser un monoide" $ do
-                property $ prop_Monoid
+            it "Dado f(x) = betaTransform x, se cumple que f((t1 t2)) == f((f(t1) t2))" $ do
+                property $ prop_Composition
