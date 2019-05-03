@@ -1,8 +1,9 @@
-module Internals.Trasformations.AlphaTransformationTest where
+module Internals.Transformations.AlphaTransformationTest where
 
 import CompiladorLambda
 import Data.HashSet as H
 import Data.HashMap.Strict as M
+import Internals.LambdaTypeGenerators.HighCollisionGenerator
 
 prop_mismaEstructura :: LambdaTerm -> Bool
 prop_mismaEstructura original = helper original nueva
@@ -14,8 +15,8 @@ prop_mismaEstructura original = helper original nueva
               helper t1 t3 && helper t2 t4
           helper _ _ = False
 
-prop_sinParametrosRepetidos :: LambdaTerm -> Bool
-prop_sinParametrosRepetidos original = helper nueva H.empty
+prop_sinParametrosRepetidos :: HighCollisionLambdaType -> Bool
+prop_sinParametrosRepetidos (HighCollisionLambdaType original) = helper nueva H.empty
     where nueva = alphaTransform original
           helper (LambdaFunction (Parametros l) x) set =
               case H.size (H.intersection set (H.fromList l)) of
