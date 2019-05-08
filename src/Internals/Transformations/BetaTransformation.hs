@@ -28,8 +28,8 @@ betaTransform t = helperBeta t H.empty
                         t2' = helperBeta t2 m
           helperBeta (LambdaApplication t1 t2) m =
               case t1' of
-                  (LambdaFunction _ x) -> helperBeta (LambdaApplication t1' t2') m
-                  x -> LambdaApplication t1' t2'
+                  (LambdaFunction _ _) -> helperBeta (LambdaApplication t1' t2') m
+                  _ -> LambdaApplication t1' t2'
             where t1' = helperBeta t1 m
                   t2' = helperBeta t2 m
           helperBeta (LambdaFunction (Parametros []) t) m = helperBeta t m

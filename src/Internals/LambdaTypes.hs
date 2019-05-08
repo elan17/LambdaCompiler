@@ -7,7 +7,6 @@ module Internals.LambdaTypes
 ) where
 
 newtype Parametros = Parametros [String]
-    deriving (Eq, Show)
 
 -- | @LambdaTerm a@ representa una expresión lambda ya parseada
 data LambdaTerm = LambdaVariable String
@@ -15,11 +14,13 @@ data LambdaTerm = LambdaVariable String
                                  , cuerpo :: LambdaTerm}
                 | LambdaApplication LambdaTerm LambdaTerm
                 | LambdaStub String
-                deriving (Eq, Show)
 
 {-
     Métodos para convertir la expresión lambda a un string
 -}
+
+instance Show LambdaTerm where
+    show = toString
 
 toStringParams :: Parametros -> String
 toStringParams (Parametros []) = ""
