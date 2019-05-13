@@ -1,6 +1,7 @@
-module Arithmetics.IntegersTest where
+module Operations.Arithmetics.IntegersTest where
 
 import CompiladorLambda
+import Operations.Arithmetics.Integers
 
 import Test.QuickCheck.Arbitrary
 import Test.QuickCheck.Gen
