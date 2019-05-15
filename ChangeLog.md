@@ -1,3 +1,3 @@
-# Changelog for CompiladorLambda
+# Changelog for  Lambda
 
 ## Unreleased changes

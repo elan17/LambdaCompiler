@@ -1,6 +1,6 @@
 module Main where
 
-import CompiladorLambda
+import  Lambda
 
 main = do let x = LambdaFunction {variables = Parametros ["r"], cuerpo = LambdaVariable "q"}
           print $ show x

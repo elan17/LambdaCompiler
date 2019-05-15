@@ -1,11 +1,14 @@
 library:
   source-dirs: src
   exposed-modules:
-      - CompiladorLambda
-      - Operations.Logic
-      - Operations.Arithmetics.Integers
+      - Lambda
+      - Lambda.DefaultBindings
+      - Lambda.Operations.Logic
+      - Lambda.Operations.Arithmetics.Integers
+      - Lambda.DataTypes.Lists
+      - Lambda.DataTypes.Tuples
 tests:
-  CompiladorLambda-test:
+   Lambda-test:
     source-dirs: test
     main: Main.hs
     ghc-options:
@@ -16,7 +19,7 @@ tests:
     - MissingH
     - hspec
     - QuickCheck
-    - CompiladorLambda
+    -  Lambda
 copyright: 2019 Juan Toca Mateo
 maintainer: elan17.programacion@gmail.com
 dependencies:
@@ -27,7 +30,7 @@ dependencies:
 - parsec
 - QuickCheck
 - unordered-containers
-name: CompiladorLambda
+name:  Lambda
 version: 0.1.0.0
 extra-source-files:
 - README.md
@@ -36,7 +39,7 @@ author: Juan Toca Mateo
 github: elan17/LambdaCompiler
 license: BSD3
 executables:
-  CompiladorLambda-exe:
+   Lambda-exe:
     source-dirs: app
     main: Main.hs
     ghc-options:
@@ -44,5 +47,5 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - CompiladorLambda
+    -  Lambda
 description: Please see the README on GitHub at https://github.com/elan17/LambdaCompiler
